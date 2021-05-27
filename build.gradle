@@ -1,0 +1,56 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+}
+
+ext {
+    versionCode = 1
+    versionName = "1.0"
+    applicationId = "com.android.paymentmethods"
+
+    compileSdkVersion = 30
+    minSdkVersion = 21
+    supportLibVersion = "1.3.0"
+    materialLibVersion = "1.3.0"
+    constraintlayoutLibVersion = "2.0.4"
+    recyclerviewLibVersion = "1.2.0"
+    gsonLibVersion = "2.8.7"
+    retrofit2LibVersion = "2.9.0"
+    retrofit2ConverterLibVersion = "2.9.0"
+    rxjava2AdapterLibVersion = "1.0.0"
+    okioLibVersion = "2.10.0"
+    okioLibVersion = "2.10.0"
+    okhttp3LibVersion = "4.9.1"
+    okhttpUrlConnectionLibVersion = "4.3.1"
+    okhttp3LoggingLibVersion = "4.9.1"
+    picassoLibVersion = "2.71828"
+    lifecycleLibVersion = "1.1.1"
+    rxjavaLibVersion = "2.2.9"
+    rxandroidLibVersion = "2.0.2"
+    junit = "4.13.2"
+    testRunner = "1.4.0-beta01"
+    espresso = "3.4.0-beta01"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

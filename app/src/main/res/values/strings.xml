@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Payment Methods</string>
+    <string name="payment_methods">Payment methods</string>
+    <string name="logo">logo</string>
+    <string name="nav_back_iv">Nav Back IV</string>
+    <string name="label">label</string>
+</resources>

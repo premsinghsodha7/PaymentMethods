@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+
+
+def appConfigPropertiesFile = rootProject.file("appConfig.properties")
+def appConfig = new Properties()
+appConfig.load(new FileInputStream(appConfigPropertiesFile))
+
+// Creates a variable called keystorePropertiesFile, and initializes it to the
+// keystore.properties file.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initializes a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+// Loads the keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.compileSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField("String", "API_URL", appConfig['development_url'])
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        UAT {
+            buildConfigField("String", "API_URL", appConfig['demo_url'])
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField("String", "API_URL", appConfig['production_url'])
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.supportLibVersion}"
+    implementation "com.google.android.material:material:${rootProject.ext.materialLibVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.constraintlayoutLibVersion}"
+    implementation "androidx.recyclerview:recyclerview:${rootProject.ext.recyclerviewLibVersion}"
+
+    // Retrofit and OkHttp
+    // OkHttp interceptors for logging
+    implementation "com.google.code.gson:gson:${rootProject.ext.gsonLibVersion}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit2LibVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit2ConverterLibVersion}"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rootProject.ext.rxjava2AdapterLibVersion}"
+    implementation "com.squareup.okio:okio:${rootProject.ext.okioLibVersion}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttp3LibVersion}"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:${rootProject.ext.okhttpUrlConnectionLibVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttp3LoggingLibVersion}"
+
+    implementation "com.squareup.picasso:picasso:${rootProject.ext.picassoLibVersion}"
+
+    implementation "android.arch.lifecycle:viewmodel:${rootProject.ext.lifecycleLibVersion}"
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycleLibVersion}"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    annotationProcessor "android.arch.lifecycle:compiler:${rootProject.ext.lifecycleLibVersion}"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjavaLibVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroidLibVersion}"
+
+    testImplementation "junit:junit:${rootProject.ext.junit}"
+    androidTestImplementation "androidx.test:runner:${rootProject.ext.testRunner}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.espresso}"
+}
